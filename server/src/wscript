@@ -1,0 +1,29 @@
+
+def build(ctx):        
+    ctx.program(
+        packages      = 'gio-2.0 gee-0.8 libgda-6.0 posix',
+        target        = 'server',
+        uselib        = 'GIO GLIB GEE GDA POSIX',
+        source        = [
+                         'Main.vala', 
+                         'Errors.vala',
+                         'BinaryData.vala',
+                         'ServiceManager.vala',
+                         './Database/Database.vala',
+                         './BinaryFormat/BinaryType.vala',
+                         './BinaryFormat/BinaryNumber.vala',
+                         './BinaryFormat/BinaryU8.vala',
+                         './BinaryFormat/BinaryArray.vala',
+                         './BinaryFormat/BinaryBytes.vala',                         
+                         './BinaryFormat/BinaryDeserializer.vala',                                                                           
+                         './CommandService/CommandService.vala',
+                         './CommandService/Messages/MessageProcessor.vala',
+                         './CommandService/Messages/MessageDeserializer.vala', 
+                         './CommandService/Messages/MessagePacket.vala',
+                         './CommandService/Messages/MessageRegister.vala',
+                         './StreamService/StreamService.vala', 
+                         'Logger.vala'
+                        ],
+        includes = ['/usr/include/libgda-6.0/','/usr/include/libgda-6.0/libgda/','/usr/include/libxml2'],
+        vala_defines  = ['DEBUG']
+    )        

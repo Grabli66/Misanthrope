@@ -1,0 +1,17 @@
+VERSION = '0.1'
+APPNAME = 'testriver'
+top = '.'
+out = 'build'
+
+def options(ctx):
+    ctx.load('compiler_cxx')
+
+def configure(ctx):
+    ctx.load('compiler_cxx')
+    ctx.env.LIBPATH = ['/home/grabli66/Workspace/clang/libriver/build']
+    ctx.env.LIB = ['river']
+    ctx.env.append_value('INCLUDES', ['include', '/home/grabli66/Workspace/clang/libriver/include'])
+    ctx.check(header_name='stdio.h', features='cxx cxxprogram', mandatory=False)
+
+def build(ctx):
+    ctx.program(source='./src/main.cpp', target='test')

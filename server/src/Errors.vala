@@ -1,0 +1,4 @@
+errordomain DeserError {
+    WrongData,
+    WrongType
+}

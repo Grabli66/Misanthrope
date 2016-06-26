@@ -1,0 +1,16 @@
+VERSION = '0.1'
+APPNAME = 'libriver'
+top = '.'
+out = 'build'
+
+def options(ctx):    
+    ctx.load('compiler_cxx')    
+
+def configure(ctx):
+    ctx.load('compiler_cxx')
+    ctx.env.append_value('CXXFLAGS', ['-std=c++14'])
+    ctx.check(header_name='stdio.h', features='cxx cxxprogram', mandatory=False)
+
+def build(ctx):  
+    ctx.stlib(source='./src/river.cpp', target='river')  
+    ctx.shlib(source='./src/river.cpp', target='river')

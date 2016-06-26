@@ -1,0 +1,16 @@
+VERSION = '0.1'
+APPNAME = 'RiverServer'
+top = '.'
+out = 'build'
+
+def options(ctx):
+    ctx.load('compiler_c')
+    ctx.load('vala')
+
+def configure(ctx):        
+    ctx.load('compiler_c vala')    
+    ctx.check_cfg(package='gio-2.0', uselib_store='GIO', atleast_version='2.0.0', mandatory=1, args='--cflags --libs')
+    ctx.check_cfg(package='gee-0.8', uselib_store='GEE', atleast_version='0.8.0', mandatory=1, args='--cflags --libs')
+
+def build(ctx):
+    ctx.recurse('src')
