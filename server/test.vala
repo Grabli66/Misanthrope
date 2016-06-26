@@ -6,7 +6,7 @@ class AsyncDemo {
         this.loop = loop;
     }
 
-    public async void http_request () throws Error {
+    public async void request () throws Error {
         try {            
             var resolver = Resolver.get_default ();
             var addresses = yield resolver.lookup_by_name_async ("localhost");
@@ -39,6 +39,6 @@ class AsyncDemo {
 void main () {
     var loop = new MainLoop ();
     var demo = new AsyncDemo (loop);
-    demo.http_request.begin ();
+    demo.request.begin ();
     loop.run ();
 }

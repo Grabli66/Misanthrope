@@ -96,7 +96,7 @@ void database_Open (Database* self) {
 	if (!_tmp0_) {
 		needCreate = TRUE;
 	}
-	_tmp2_ = gda_connection_open_from_string ("SQLite", "DB_DIR=.;DB_NAME=serverdata.db", NULL, GDA_CONNECTION_OPTIONS_NONE, &_inner_error_);
+	_tmp2_ = gda_connection_open_from_string ("SQLite", "DB_DIR=.;DB_NAME=serverdata", NULL, GDA_CONNECTION_OPTIONS_NONE, &_inner_error_);
 	_tmp1_ = _tmp2_;
 	if (G_UNLIKELY (_inner_error_ != NULL)) {
 		g_critical ("file %s: line %d: uncaught error: %s (%s, %d)", __FILE__, __LINE__, _inner_error_->message, g_quark_to_string (_inner_error_->domain), _inner_error_->code);
@@ -111,9 +111,10 @@ void database_Open (Database* self) {
 	if (_tmp4_) {
 		GdaConnection* _tmp5_ = NULL;
 		GdaConnection* _tmp6_ = NULL;
+		GdaConnection* _tmp7_ = NULL;
+		GdaConnection* _tmp8_ = NULL;
 		_tmp5_ = self->priv->_connection;
-		gda_connection_execute_non_select_command (_tmp5_, "CREATE TABLE user (name string PRIMARY KEY, functions string, security" \
-"_number integer)", &_inner_error_);
+		gda_connection_execute_non_select_command (_tmp5_, "DROP table IF EXISTS test", &_inner_error_);
 		if (G_UNLIKELY (_inner_error_ != NULL)) {
 			_g_object_unref0 (_tmp1_);
 			g_critical ("file %s: line %d: uncaught error: %s (%s, %d)", __FILE__, __LINE__, _inner_error_->message, g_quark_to_string (_inner_error_->domain), _inner_error_->code);
@@ -121,7 +122,24 @@ void database_Open (Database* self) {
 			return;
 		}
 		_tmp6_ = self->priv->_connection;
-		gda_connection_update_meta_store (_tmp6_, NULL, &_inner_error_);
+		gda_connection_execute_non_select_command (_tmp6_, "CREATE TABLE test (description string, notes string)", &_inner_error_);
+		if (G_UNLIKELY (_inner_error_ != NULL)) {
+			_g_object_unref0 (_tmp1_);
+			g_critical ("file %s: line %d: uncaught error: %s (%s, %d)", __FILE__, __LINE__, _inner_error_->message, g_quark_to_string (_inner_error_->domain), _inner_error_->code);
+			g_clear_error (&_inner_error_);
+			return;
+		}
+		_tmp7_ = self->priv->_connection;
+		gda_connection_execute_non_select_command (_tmp7_, "INSERT INTO test (description, notes) VALUES (\"Test description 1\", " \
+"\"Some notes\")", &_inner_error_);
+		if (G_UNLIKELY (_inner_error_ != NULL)) {
+			_g_object_unref0 (_tmp1_);
+			g_critical ("file %s: line %d: uncaught error: %s (%s, %d)", __FILE__, __LINE__, _inner_error_->message, g_quark_to_string (_inner_error_->domain), _inner_error_->code);
+			g_clear_error (&_inner_error_);
+			return;
+		}
+		_tmp8_ = self->priv->_connection;
+		gda_connection_update_meta_store (_tmp8_, NULL, &_inner_error_);
 		if (G_UNLIKELY (_inner_error_ != NULL)) {
 			_g_object_unref0 (_tmp1_);
 			g_critical ("file %s: line %d: uncaught error: %s (%s, %d)", __FILE__, __LINE__, _inner_error_->message, g_quark_to_string (_inner_error_->domain), _inner_error_->code);
